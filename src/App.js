@@ -1,24 +1,24 @@
-import Home from './Home';
-import Navbar from './Navbar';
-import Create from './Create';
+import Home from './Pages/Home';
+import Navbar from './components/Navbar';
+import Create from './Pages/Create';
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
-import BlogDetails from './BlogDetails';
-import NoPage from './NoPage';
+import BlogDetails from './Pages/BlogDetails';
+import NoPage from './Pages/NoPage';
+import Signup from './Pages/Signup';
+import Login from './Pages/Login';
 
 function App() {
   return (
     <Router>
-      <div className="App"> 
         <Navbar />
-        <div className="content">
          <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/create" element={<Create />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
             <Route path="/blogs/:id" element={<BlogDetails />} />
             <Route path="/*" element={<NoPage />} />
          </Routes>
-        </div>
-      </div>
     </Router>
     
   );
