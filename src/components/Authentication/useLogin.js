@@ -1,19 +1,18 @@
 import { useState } from "react";
 import UseAuthContext from "../Context/useAuthContext";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 const useLogin = () => {
   const [error, setError] = useState(null);
   const [isLoading, setLoading] = useState(false);
-  const { dispatch } = UseAuthContext();
+    const { dispatch } = UseAuthContext();
+    const baseUrl = "https://dmj-s-blog-backend.vercel.app/api/user/login";
 
   const login = async (email, password) => {
     setError(null);
     setLoading(true);
 
-    const response = await fetch(
-      "https://dmj-s-blog-backend.vercel.app/api/user/login",
-      {
+    const response = await fetch(baseUrl,{
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -23,22 +22,22 @@ const useLogin = () => {
     );
 
     const json = await response.json();
-    if (!response.ok && json.status === "00") {
-      setError(json);
+    if (!response.ok && response.status === 400) {
+        setError(json);
       setLoading(false);
     //   console.log("User", json);
       toast.error("Error Login in !", {
-        position: toast.POSITION.TOP_RIGHT,
+        position: 'top-right',
       });
     }
 
-    if (response.ok && json.status !== "00") {
+    if (response.ok && response.status !== 400) {
       localStorage.setItem("User", JSON.stringify(json));
     //   console.log("User", json);
       dispatch({ type: "LOGIN", payload: json });
       setLoading(false);
       toast.success("Login Success", {
-        position: toast.POSITION.TOP_RIGHT,
+        position: 'top-right',
       });
     }
   };

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import UseAuthContext from "../Context/useAuthContext";
-import { ToastContainer, toast } from "react-toastify";
-import axios from "axios";
+import { toast } from "react-toastify";
+
 
 const useSignup = () => {
   const [error, setError] = useState(null);
@@ -14,35 +14,36 @@ const useSignup = () => {
     setLoading(true);
 
     const response = await fetch( baseUrl, {
-        mode: 'no-cors',
         method: "POST",
+        // mode: 'no-cors',        
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json"
         },
-        body: { email, password },
-      }
-      );
+        body: JSON.stringify({ email, password }),
+      });
       
     //   const response = await axios.post("https://dmj-s-blog-backend.vercel.app/api/user/signup", { email, password });
 
-      const json = response.json;
+      const result = await response.json();
+      console.log(result)
       
-    if (!response.ok && json.status === "00") {
-      setError(json);
+      if (!response.ok && response.status === 400 ) {
+        console.log(response)
+      setError(result);
       setLoading(false);
     //   console.log("User", json);
       toast.error("Error Login in !", {
-        position: toast.POSITION.TOP_RIGHT,
+        position: 'top-right',
       });
     }
 
-    if (response.ok && json.status !== "00") {
-      localStorage.setItem("User", JSON.stringify(json));
+    if (response.ok && result.status !== 400) {
+      localStorage.setItem("User", JSON.stringify(result));
     //   console.log("User", json);
-      dispatch({ type: "LOGIN", payload: json });
+      dispatch({ type: "LOGIN", payload: result });
       setLoading(false);
       toast.success("Login Success", {
-        position: toast.POSITION.TOP_RIGHT,
+        position: 'top-right',
       });
     }
     };

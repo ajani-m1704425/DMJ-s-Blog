@@ -10,10 +10,12 @@ export const reducer = (state, action) => {
       return { ...state, user: action.payload };
     case "LOGOUT":
       return { ...state, user: null };
-    // case "HOME":
-    //   return { ...state, page: "home" };
-    // case "CONTROL":
-    //   return { ...state, page: "control" };
+    case "TWIFAIL":
+      return { ...state, twiLogin: "fail" };
+    case "TWISUCCESS":
+      return { ...state, twiLogin: "success" };
+    case "TWINULL":
+      return { ...state, twiLogin: null };
     // case "MONITOR":
     //   return { ...state, page: "monitor" };
     // case "AUTH":
@@ -26,7 +28,7 @@ export const reducer = (state, action) => {
 const AuthContext = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, {
     user: null,
-    page: "",
+    twiLogin: null,
   });
 
   if (!state.user) {

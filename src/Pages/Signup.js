@@ -1,9 +1,9 @@
 import { FcGoogle } from "react-icons/fc";
-import twitter from "../resources/images/twitter.png";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import UseAuthContext from "../components/Context/useAuthContext";
-import { ToastContainer, toast } from "react-toastify";
 import useSignup from "../components/Authentication/useSignup";
+import { Link } from "react-router-dom";
+import TwitterSignup from "../components/socialAuth/TwitterSignup";
 
 const Signup = (props) => {
     const [password, setPassword] = useState("");
@@ -17,7 +17,7 @@ const Signup = (props) => {
         e.preventDefault();
 
         await signup(email, password);
-        
+
         console.log("error at login: ", error);
         // setLoading(0);
     };
@@ -45,10 +45,11 @@ const Signup = (props) => {
                     <input
                         onChange={(e) => setPassword(e.target.value)}
                         value={password}
-                        placeholder="Enter access password"
+                        placeholder="Enter Your password"
                         type="password"
                         className="px-4 py-2.5 text-center block w-3/4 mx-auto border-2 border-[#708090] rounded-md md:px-6 md:py-3.5"
                     />
+                    {error && <div className="text-base text-center text-[#f1356d] pt-2">{error.error}</div>}
                     <button
                         onClick={handlesubmit}
                         disabled={error ? false : isLoading}
@@ -57,6 +58,7 @@ const Signup = (props) => {
                         {isLoading ? "Loading..." : "Submit"}
                         
                     </button>
+                    
                 </form>
             </div>
             <p className="py-6 text-[#f1356d]">OR</p>
@@ -67,15 +69,11 @@ const Signup = (props) => {
                     </div>
                     Sign up with Google
                 </div>
-                <div className="flex w-fit items-center mt-5 cursor-pointer py-3 px-10 border rounded-3xl border-[#3b3737]">
-                    <div className="text-xl pr-4">
-                        <img src={twitter} alt="" className="w-[20px]"/>
-                    </div>
-                    Sign up with Twitter
-                </div>
+                <TwitterSignup />
             </div>
             <div className="mt-4">
-                <p>Already have an account? <span className="text-[#f1356d]">Sign in</span></p>
+                <p>Already have an account?  <Link to="/login"><span className="text-[#f1356d] cursor-pointer" >Sign in</span>
+                </Link></p>
             </div>
         </div>
     );

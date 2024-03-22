@@ -1,7 +1,23 @@
-import { FcGoogle } from "react-icons/fc";
-import twitter from "../resources/images/twitter.png"
+import { useState } from "react";
+import useLogin from "../components/Authentication/useLogin";
+import { Link } from "react-router-dom";
+import TwitterSignin from "../components/socialAuth/TwitterSignin";
+import GoogleSignin from "../components/socialAuth/GoogleSignin";
 
-const login = (props) => {
+const Login = (props) => {
+    const [password, setPassword] = useState("");
+    const [email, setEmail] = useState("");
+    const { login, error, isLoading } = useLogin();
+
+    const handlesubmit = async (e) => {
+        e.preventDefault();
+
+        await login(email, password);
+
+        console.log("error at login: ", error);
+    };
+
+
     return (
         <div className=" w-screen h-screen flex flex-col justify-center items-center">
             <div className=" bg-[#f8efef] py-[1.875rem] w-[80%] h-fit rounded-lg sm:w-[55%] md:w-[50%] lg:w-[35%] xl:w-[30%] ">
@@ -11,47 +27,41 @@ const login = (props) => {
                     </label>
 
                     <input
-                        // value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        value={email}
                         placeholder="Enter Your Email"
                         type="email"
                         className="px-4 py-2.5 text-center block w-3/4 mx-auto border-2 border-[#708090] rounded-md mb-4 md:px-6 md:py-3.5"
                     />
                     <input
-                        // onChange={(e) => setAccess(e.target.value)}
-                        // value={accessCode}
-                        placeholder="Enter access password"
+                        onChange={(e) => setPassword(e.target.value)}
+                        value={password}
+                        placeholder="Enter password"
                         type="password"
                         className="px-4 py-2.5 text-center block w-3/4 mx-auto border-2 border-[#708090] rounded-md md:px-6 md:py-3.5"
                     />
+                    {error && <div className="text-base text-[#f1356d] pt-2 text-center ">{error.error}</div>}
                     <button
-                        // disabled={error ? false : isLoading}
+                        onClick={handlesubmit}
+                        disabled={error ? false : isLoading}
                         className="block text-lg text-white font-bold bg-[#f1356d] py-1.5 px-4 mx-auto mt-5 rounded-md md:mt-6 md:text-lg md:py-1.5 md:px-6"
                     >
-                        {/* {loading ? "Loading..." : "Submit"} */}
-                        Submit
+                        {isLoading ? "Loading..." : "Submit"}
                     </button>
+                    
                 </form>
             </div>
             <p className="py-6 text-[#f1356d]">OR</p>
             <div className="">
-                <div className="flex w-fit items-center cursor-pointer py-3 px-10 border rounded-3xl border-[#3b3737]">
-                    <div className="text-xl pr-4">
-                        <FcGoogle />
-                    </div>
-                    Sign in with Google
-                </div>
-                <div className="flex w-fit items-center mt-5 cursor-pointer py-3 px-10 border rounded-3xl border-[#3b3737]">
-                    <div className="text-xl pr-4">
-                        <img src={twitter} alt="" className="w-[20px]"/>
-                    </div>
-                    Sign in with Twitter
-                </div>
+                <GoogleSignin />
+                <TwitterSignin />
             </div>
             <div className="mt-4">
-                <p>No account? <span className="text-[#f1356d]">Create one</span></p>
+                <p>No account? <Link to="/signup"><span className="text-[#f1356d] cursor-pointer" >Create one</span>
+                </Link></p>
             </div>
         </div>
     );
 }
 
-export default login;
+export default Login;
