@@ -10,7 +10,7 @@ const TwitterSignin = (props) => {
     const checkWindowLocation = setInterval(() => {
       try {
         // Check if the Twitter authentication process is complete
-        if (twitterAuthWindow.location.href.startsWith('http://localhost:3000')) {
+        if (twitterAuthWindow.location.href.startsWith('https://dmj-s-blog.vercel.app')) {
           // Parse URL parameters to extract user details
           const urlParams = new URLSearchParams(twitterAuthWindow.location.search);
           const userJson = urlParams.get('user');

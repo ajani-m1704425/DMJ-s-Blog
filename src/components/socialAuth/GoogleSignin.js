@@ -10,7 +10,7 @@ const GoogleSignin = (props) => {
     const checkWindowLocation = setInterval(() => {
       try {
         // Check if the Twitter authentication process is complete
-        if (GoogleAuthWindow.location.href.startsWith('http://localhost:3000')) {
+        if (GoogleAuthWindow.location.href.startsWith('https://dmj-s-blog.vercel.app')) {
           // Parse URL parameters to extract user details
           const urlParams = new URLSearchParams(GoogleAuthWindow.location.search);
           const userJson = urlParams.get('user');
